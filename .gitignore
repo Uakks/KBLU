@@ -1,0 +1,78 @@
+# =====================
+# Python / Django
+# =====================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django stuff
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+db.sqlite3
+db.sqlite3-journal
+
+# Media and static (if generated during dev)
+media/
+staticfiles/
+static/
+
+# Ignore migrations (optional)
+**/migrations/
+!*/migrations/__init__.py  # keep init files to recognize as a module
+
+# Secret or local settings
+local_settings.py
+settings_local.py
+.env
+
+# Virtual environments
+env/
+myvenv/
+ENV/
+.myvenv/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.iml
+
+# macOS and Linux system files
+.DS_Store
+*.swp
+
+# Coverage reports and test output
+htmlcov/
+.coverage
+coverage.xml
+*.pytest_cache/
+
+# =====================
+# Angular Frontend
+# =====================
+
+# Node dependencies
+node_modules/
+
+# Build output
+dist/
+tmp/
+
+# Angular build
+out-tsc/
+.angular/
+
+# Environment files
+environment.prod.ts
+environment.dev.ts
+environment.ts
+src/environments/*.ts
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
