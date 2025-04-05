@@ -1,6 +1,5 @@
 from django.db import models
 import uuid
-from django.db import models
 
 # Create your models here.  
 
@@ -27,7 +26,7 @@ class Profile(models.Model):
     age = models.PositiveIntegerField()
     profile_picture = models.URLField(blank=True, null=True)
 
-    preferred_gender = models.CharField(max_length=6, choices=GENDER_CHOICES)
+    preferred_gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
     preferred_age_min = models.PositiveIntegerField()
     preferred_age_max = models.PositiveIntegerField()
     preferred_university = models.CharField(max_length=255, blank=True, null=True)
@@ -48,8 +47,10 @@ class Swipe(models.Model):
     decision = models.CharField(max_length=6, choices=DECISION_CHOICES)
     timestamp = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        unique_together = ('from_profile', 'to_profile')  # Prevent duplicate swipes
+    def __str__(self):
+        return f"from {self.from_profile} to {self.to_profile} decision:{self.decision} time:{self.timestamp}"
+    # class Meta:
+    #     unique_together = ('from_profile', 'to_profile')  # Prevent duplicate swipes
 
 # 4. Chat
 class Chat(models.Model):
@@ -58,6 +59,9 @@ class Chat(models.Model):
     user2 = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='chats_as_user2')
     created_at = models.DateTimeField(auto_now_add=True)
 
+
+    def __str__(self):
+        return f"{self.id} - {self.user1} & {self.user2} at {self.created_at}"
     class Meta:
         unique_together = ('user1', 'user2')  # Prevent duplicate chat threads
 
@@ -68,3 +72,6 @@ class Message(models.Model):
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"From {self.sender} in Chat {self.chat.id}: {self.content[:30]}... at {self.timestamp} (Read: {self.read})"
