@@ -4,6 +4,9 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { ProfileListComponent } from './components/profiles/profile-list/profile-list.component';
 import { ProfileComponent } from './components/profiles/profile/profile.component';
+import { ChatListComponent } from './components/chat-list/chat-list.component';
+import { ChatDetailComponent } from './components/chat-detail/chat-detail.component';
+
 
 export const routes: Routes = [
   {
@@ -31,11 +34,19 @@ export const routes: Routes = [
     title: 'Profile List',
     component: ProfileListComponent,
   },
-  // in AppRoutingModule
   { 
     path: 'profiles/:id', 
     title: 'Profile',
     loadComponent: () => import('./components/profiles/profile/profile.component').then(m => m.ProfileComponent),
   },
-
+    {
+        path: 'chats',
+        title: 'Here is yall chats',
+        component: ChatListComponent
+    },
+    {
+        path: 'chats/:id',
+        title: 'Chat with ...',
+        component: ChatDetailComponent
+    },
 ];

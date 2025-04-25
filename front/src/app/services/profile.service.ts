@@ -53,4 +53,9 @@ export class ProfileService {
     console.error('ProfileService Error:', error);
     return throwError(error.error || 'Server error');
   }
+  getCurrentUser() {
+    return this.http
+      .get<Profile>(`${API_BASE}/me`)
+      .pipe(catchError(this.handleError));
+  }
 }
