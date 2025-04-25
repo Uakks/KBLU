@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -136,7 +137,17 @@ REST_FRAMEWORK = {
     ),
 }
 
-INSTALLED_APPS += ['corsheaders']
+INSTALLED_APPS += [
+    'corsheaders',
+    'rest_framework_simplejwt.token_blacklist'
+]
+
+SIMPLE_JWT = {
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+}
 
 MIDDLEWARE.insert(0, 'corsheaders.middleware.CorsMiddleware')  # Important to put it first
 

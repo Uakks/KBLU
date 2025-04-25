@@ -34,6 +34,8 @@ def auth_login(request):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def auth_logout(request):
+    # print("Raw body  :", request.body)
+    # print("Parsed data:", request.data)
     token = request.data.get('refresh')
     if not token:
         return Response({'detail': 'Refresh token required'},
