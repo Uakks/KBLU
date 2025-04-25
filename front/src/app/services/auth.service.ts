@@ -110,4 +110,20 @@ export class AuthService {
     console.error('AuthService Error:', error);
     return throwError(error.error || 'Server error');
   }
+  
+  getUsername(): string | null {
+    const token = this.getAccessToken();
+    if (!token) return null;
+
+    try {
+      // JWT is three parts separated by '.', we want the payload (index 1)
+      const payloadBase64 = token.split('.')[1];
+      // atob handles base64, JSON.parse parses the JSON
+      const payload = JSON.parse(atob(payloadBase64));
+      return payload.username ?? null;
+    } catch (e) {
+      console.error('Failed to decode JWT payload', e);
+      return null;
+    }
+  }
 }

@@ -113,3 +113,19 @@ class ProfileCreateSerializer(serializers.Serializer):
             preferred_major=validated_data.get('preferred_major'),
         )
         return profile
+
+
+class CurrentUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = (
+            'id',
+            'username',
+            'full_name',
+            'profile_picture',
+            'university',
+            'major',
+            'location',
+            'gender',
+            'age',
+        )

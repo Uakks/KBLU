@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from django.contrib.auth.models import User
 
+from rest_framework import generics
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
@@ -12,7 +13,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import Profile, Swipe, Chat, Message
 from .serializers import (
-    ProfileModelSerializer, ProfileCreateSerializer,
+    CurrentUserSerializer, ProfileModelSerializer, ProfileCreateSerializer,
     LoginSerializer, OAuthSerializer, PreferenceSerializer,
     SwipeModelSerializer, ChatModelSerializer, MessageModelSerializer
 )
@@ -76,7 +77,10 @@ class ProfileListCreateAPIView(APIView):
         university = request.query_params.get('university')
         if university:
             qs = qs.filter(university__icontains=university)
-
+        username = request.query_params.get('username')
+        if username:
+            qs = qs.filter(username__icontains=username)
+            
         serializer = ProfileModelSerializer(qs, many=True)
         return Response(serializer.data)
 
@@ -250,3 +254,11 @@ class MessageDetailAPIView(APIView):
                             status=status.HTTP_403_FORBIDDEN)
         msg.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class CurrentUserView(generics.RetrieveAPIView):
+    serializer_class = CurrentUserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return Profile.objects.get(user=self.request.user)

@@ -1,0 +1,121 @@
+:host {
+    display: block;
+    height: 100vh;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    color: #2d3748; /* gray-800 */
+  }
+  
+  /* Container Flex */
+  .flex {
+    display: flex;
+    height: 100%;
+  }
+  
+  /* Sidebar */
+  aside {
+    width: 25%;
+    background: #fff;
+    border-right: 1px solid #edf2f7; /* gray-100 */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Header */
+  aside > header {
+    padding: 16px;
+    border-bottom: 1px solid #edf2f7; /* gray-100 */
+  }
+  aside > header .text-pink-500 {
+    color: #f56565; /* pink-500 */
+    font-size: 1.125rem; /* text-lg */
+    font-weight: 700;
+  }
+  
+  /* Chat List */
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+    overflow-y: auto;
+  }
+  li.chat-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid #edf2f7; /* gray-100 */
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  li.chat-item:hover {
+    background: #f7fafc; /* gray-50 */
+  }
+  
+  /* Avatar */
+  .chat-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 9999px;
+    object-fit: cover;
+    margin-right: 12px;
+  }
+  
+  /* Chat Info */
+  .chat-info {
+    flex: 1;
+    min-width: 0; /* allow text truncation */
+  }
+  .chat-name {
+    font-size: 1rem;    /* text-base */
+    font-weight: 600;   /* font-semibold */
+    color: #2d3748;     /* gray-800 */
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .chat-snippet {
+    font-size: 0.875rem; /* text-sm */
+    color: #718096;      /* gray-500 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* Time */
+  .chat-time {
+    font-size: 0.75rem; /* text-xs */
+    color: #a0aec0;     /* gray-400 */
+    margin-left: 8px;
+    white-space: nowrap;
+  }
+  
+  /* Footer */
+  aside > footer {
+    padding: 16px;
+    border-top: 1px solid #edf2f7; /* gray-100 */
+  }
+  aside > footer button {
+    width: 100%;
+    padding: 8px 0;
+    background: #f56565;  /* pink-500 */
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.875rem;  /* text-sm */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  aside > footer button:hover {
+    background: #e53e3e; /* pink-600 */
+  }
+  
+  /* Main area */
+  section {
+    flex: 1;
+    background: #f7fafc; /* gray-50 */
+    overflow: auto;
+  }
+  

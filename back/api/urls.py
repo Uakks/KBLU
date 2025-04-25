@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (
-    auth_login, auth_logout, auth_oauth,
+    CurrentUserView, auth_login, auth_logout, auth_oauth,
     ProfileListCreateAPIView, ProfileDetailAPIView,
     PreferencesAPIView, SwipeAPIView, MatchesAPIView,
     ChatListCreateAPIView, MessageListCreateAPIView, MessageDetailAPIView,
@@ -30,4 +30,6 @@ urlpatterns = [
          name='message-list-create'),
     path('api/chats/<uuid:chat_id>/messages/<int:message_id>/',
          MessageDetailAPIView.as_view(),      name='message-detail'),
+         
+    path('api/me/', CurrentUserView.as_view(), name='current-user'),
 ]
