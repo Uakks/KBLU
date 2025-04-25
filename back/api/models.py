@@ -6,13 +6,15 @@ import uuid
 # User, chat, message,
 # 1. User
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+
 
 # 2. Profile
 class Profile(models.Model):
     GENDER_CHOICES = [
         ('male', 'Male'),
         ('female', 'Female'),
-        ('other', 'Other'),
+        # ('other', 'Other'),
     ]
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -35,6 +37,19 @@ class Profile(models.Model):
     def __str__(self):
         return self.username
 
+    def clean(self):
+        super().clean()
+        if self.age < 12:
+            raise ValidationError({'age': 'Only 12+'})
+        if self.preferred_age_max < self.preferred_age_min:
+            raise ValidationError({'preferred_age_max': 'Preffered maximum age should be higher than minimum age'})
+        if self.preferred_age_min < 0:
+            raise ValidationError({'preferred_age_min': 'Preffered minimum age should be higher than 0'})
+
+    def save(self, *args, **kwargs):
+        # run all field & model validation, including our clean()
+        self.full_clean()
+        super().save(*args, **kwargs)
 # 3. Swipe
 class Swipe(models.Model):
     DECISION_CHOICES = [
