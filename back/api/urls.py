@@ -5,5 +5,6 @@ router = DefaultRouter()
 
 urlpatterns = [
     path('api/', include(router.urls)),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
