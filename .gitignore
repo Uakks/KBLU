@@ -21,10 +21,6 @@ media/
 staticfiles/
 static/
 
-# Ignore migrations (optional)
-**/migrations/
-!*/migrations/__init__.py  # keep init files to recognize as a module
-
 # Secret or local settings
 local_settings.py
 settings_local.py
