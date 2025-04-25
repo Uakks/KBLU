@@ -1,0 +1,47 @@
+.header-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.header-nav .nav-link {
+    margin-right: 1rem;
+    color: #333333;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.header-nav .nav-link:hover {
+    color: #007bff;
+}
+
+.header-nav .spacer {
+    flex: 1;
+}
+
+.header-nav .btn-logout {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333333;
+    font: inherit;
+    padding: 0;
+}
+
+.header-nav .btn-logout:hover {
+    color: #007bff;
+}
+
+/* Push page content below fixed header */
+:host {
+    display: block;
+    margin-top: 56px;
+}
