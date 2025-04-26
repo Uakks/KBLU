@@ -6,7 +6,7 @@ import { ProfileService } from '../../services/profile.service';
 import { AuthService } from '../../services/auth.service';
 import { Chat } from '../../interfaces/chat';
 import { Profile } from '../../interfaces/profile';
-import { forkJoin, map } from 'rxjs';
+import { forkJoin, map, switchMap } from 'rxjs';
 
 interface ChatListItem {
   id: string;
@@ -20,43 +20,36 @@ interface ChatListItem {
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
-    <div class="flex h-full">
-      <aside class="w-1/4 border-r border-gray-200 bg-white flex flex-col">
-        <header class="px-4 py-3 border-b border-gray-100">
-          <div class="text-pink-500 font-bold text-lg">KBLU</div>
+    <div class="chat-container">
+      <aside class="chat-sidebar">
+        <header class="chat-header">
+          <div class="app-name">KBLU</div>
         </header>
-        <ul class="flex-1 overflow-y-auto">
+        <ul class="chat-list">
           <li *ngFor="let item of chatItems"
-              class="flex items-center p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer"
+              class="chat-item"
               (click)="goToChat(item.id)">
             <img
               [src]="item.other.profilePicture || 'assets/default-avatar.png'"
               alt=""
-              class="w-10 h-10 rounded-full mr-3"
+              class="avatar"
             />
-            <div class="flex-1 overflow-hidden">
-              <div class="font-medium text-gray-900 truncate">
-                {{ item.other.username }}
-              </div>
-              <div class="text-sm text-gray-500 truncate">
-                {{ item.lastSnippet }}
-              </div>
+            <div class="chat-info">
+              <div class="username">{{ item.other.username }}</div>
+              <div class="snippet">{{ item.lastSnippet }}</div>
             </div>
-            <div class="text-xs text-gray-400 ml-2 whitespace-nowrap">
-              {{ item.lastTime }}
-            </div>
+            <div class="timestamp">{{ item.lastTime }}</div>
           </li>
         </ul>
-        <footer class="px-4 py-3 border-t border-gray-100">
-          <button class="w-full py-2 bg-pink-500 text-white rounded-lg">
-            New Chat
-          </button>
+        <footer class="chat-footer">
+          <button class="new-chat-btn">New Chat</button>
         </footer>
       </aside>
-      <section class="flex-1 bg-gray-50">
+      <section class="chat-content">
         <router-outlet></router-outlet>
       </section>
     </div>
+
   `,
   styleUrls: ['./chat-list.component.css']
 })
@@ -88,45 +81,33 @@ export class ChatListComponent implements OnInit {
         }
       }
     });
-    // 1) Log in and store tokens
-    // this.auth.login(this.logRequest).subscribe({
-    //   next: tokens => {
-    //     localStorage.setItem('access_token', tokens.access);
-    //     localStorage.setItem('refresh_token', tokens.refresh);
-
-    //     // 2) Load chats
-    //     this.chatSvc.getChats().subscribe({
-    //       next: chats => this.buildChatItems(chats),
-    //       error: err => console.error('Failed to load chats:', err)
-    //     });
-    //   },
-    //   error: err => console.error('Login failed:', err)
-    // });
   }
 
-  private buildChatItems(chats: Chat[]) {
-    const currentUserId = this.extractUserIdFromToken();
-    const observables = chats.map(chat => {
-      // determine the “other” profile’s ID
-      const otherId = chat.user1 === currentUserId ? chat.user2 : chat.user1;
-      // fetch that profile
-      return this.profSvc.getProfile(otherId).pipe(
-        // map Profile → ChatListItem
-        map(profile => ({
-          id: chat.id,
-          other: profile,
-          lastSnippet: '...',      // placeholder, replace if you have last-msg data
-          lastTime: this.formatTime(chat.created_at)
-        }))
-      );
-    });
-
-    // wait for all to complete
-    forkJoin(observables).subscribe({
-      next: items => (this.chatItems = items),
-      error: err => console.error('Error building chat items:', err)
+  private buildChatItems(chats: Chat[]): void {
+    this.profSvc.getCurrentUser().pipe(
+      switchMap(currentUser => {
+        const items$ = chats.map(chat => {
+          // pick the other user’s ID
+          const otherId = chat.user1 === currentUser.id ? chat.user2 : chat.user1;
+  
+          return this.profSvc.getProfile(otherId).pipe(
+            map(profile => ({
+              id:          chat.id,
+              other:       profile,
+              lastSnippet: '',                        // or e.g. `Matched on ${this.formatDate(chat.created_at)}`
+              lastTime:    this.formatTime(chat.created_at)
+            } as ChatListItem))
+          );
+        });
+        return forkJoin(items$);
+      })
+    ).subscribe({
+      next: items => this.chatItems = items,
+      error:  err   => console.error('Error building chat items:', err)
     });
   }
+  
+  
 
   goToChat(chatId: string) {
     this.router.navigate(['/chats', chatId]);

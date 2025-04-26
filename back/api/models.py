@@ -7,6 +7,8 @@ import uuid
 # 1. User
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 # 2. Profile
@@ -90,3 +92,27 @@ class Message(models.Model):
 
     def __str__(self):
         return f"From {self.sender} in Chat {self.chat.id}: {self.content[:30]}... at {self.timestamp} (Read: {self.read})"
+
+@receiver(post_save, sender=Swipe)
+def create_chat_on_match(sender, instance: Swipe, created, **kwargs):
+    """
+    When A swipes 'like' on B, check if B already swiped 'like' on A;
+    if so, create a Chat (if it doesn't already exist).
+    """
+    if not created or instance.decision != 'like':
+        return
+
+    a = instance.from_profile
+    b = instance.to_profile
+
+    # Has B already liked A?
+    if Swipe.objects.filter(
+        from_profile=b,
+        to_profile=a,
+        decision='like'
+    ).exists():
+        # Normalize ordering so (user1,user2) is unique:
+        user1, user2 = sorted([a, b], key=lambda p: str(p.id))
+
+        # Create the Chat if it doesn't exist yet:
+        Chat.objects.get_or_create(user1=user1, user2=user2)

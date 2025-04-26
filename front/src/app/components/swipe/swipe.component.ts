@@ -1,11 +1,15 @@
 // src/app/components/swipe/swipe.component.ts
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { Profile } from '../../interfaces/profile';
 import { ProfileService } from '../../services/profile.service';
 import { SwipeService } from '../../services/swipe.service';
 import { SwipeCreate } from '../../interfaces/swipe';
+import { ChatService } from '../../services/chat.service';
+import { Chat } from '../../interfaces/chat';
 
 @Component({
   selector: 'app-swipe',
@@ -51,8 +55,10 @@ export class SwipeComponent implements OnInit, OnDestroy {
 
   constructor(
     private profileService: ProfileService,
-    private swipeService: SwipeService
-  ) { }
+    private swipeService: SwipeService,
+    private chatService: ChatService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     const sub = this.profileService.getCurrentUser().subscribe({
@@ -60,7 +66,7 @@ export class SwipeComponent implements OnInit, OnDestroy {
         this.currentUserId = user.id;
         this.loadProfiles();
       },
-      error: err => {
+      error: () => {
         this.error = 'Failed to fetch current user.';
         this.loading = false;
       }
@@ -75,7 +81,7 @@ export class SwipeComponent implements OnInit, OnDestroy {
         this.loading = false;
         this.setCurrent();
       },
-      error: err => {
+      error: () => {
         this.error = 'Failed to load students.';
         this.loading = false;
       }
@@ -100,7 +106,24 @@ export class SwipeComponent implements OnInit, OnDestroy {
       decision
     };
 
-    const sub = this.swipeService.createSwipe(dto).subscribe({
+    const sub = this.swipeService.createSwipe(dto).pipe(
+      switchMap(() => {
+        if (decision === 'like') {
+          return this.chatService.getChats().pipe(
+            tap((allChats: Chat[]) => {
+              const matchChat = allChats.find(c =>
+                (c.user1 === this.currentUserId && c.user2 === this.currentProfile!.id) ||
+                (c.user2 === this.currentUserId && c.user1 === this.currentProfile!.id)
+              );
+              if (matchChat) {
+                this.router.navigate(['/chats', matchChat.id]);
+              }
+            })
+          );
+        }
+        return of(null);
+      })
+    ).subscribe({
       next: () => {
         this.currentIndex++;
         this.setCurrent();
@@ -111,6 +134,7 @@ export class SwipeComponent implements OnInit, OnDestroy {
         this.setCurrent();
       }
     });
+
     this.subs.push(sub);
   }
 
@@ -118,3 +142,4 @@ export class SwipeComponent implements OnInit, OnDestroy {
     this.subs.forEach(s => s.unsubscribe());
   }
 }
+
