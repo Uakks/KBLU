@@ -1,0 +1,60 @@
+.home-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  background: linear-gradient(135deg, #ee8484 0%, #fe5d5d 100%);
+  padding: 2rem;
+}
+
+.welcome-card {
+  background: white;
+  padding: 2rem 3rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.welcome-card h1 {
+  margin-bottom: 1rem;
+  font-size: 2.5rem;
+  color: #333;
+}
+
+.welcome-card p {
+  margin-bottom: 2rem;
+  font-size: 1.25rem;
+  color: #555;
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.btn-primary {
+  background-color: #0066ff;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #0052cc;
+}
+
+.btn-secondary {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.btn-secondary:hover {
+  background-color: #cccccc;
+}
