@@ -1,71 +1,114 @@
-form {
+.register-wrapper {
     max-width: 480px;
     margin: 2rem auto;
+    margin-top: 5rem;
     padding: 2rem;
     background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.progress-bar {
+    position: relative;
+    height: 6px;
+    background-color: #eee;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.progress {
+    height: 100%;
+    background-color: #FF6B81;
+    transition: width 0.4s ease;
+}
+
+.step {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 label,
 legend {
     display: block;
-    margin-bottom: 0.75rem;
-    font-weight: 500;
-    color: #333333;
-}
-
-fieldset {
-    margin: 1.5rem 0;
-    padding: 1rem;
-    border: 1px solid #dddddd;
-    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    color: #555;
 }
 
 input,
 select {
     width: 100%;
     padding: 0.5rem 0.75rem;
-    margin-top: 0.25rem;
-    border: 1px solid #dddddd;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1rem;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 input:focus,
 select:focus {
     outline: none;
     border-color: #007bff;
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+fieldset {
+    border: none;
+    margin: 1.5rem 0;
+    padding: 0;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
 }
 
 button {
-    width: 100%;
-    padding: 0.75rem;
-    margin-top: 1rem;
-    background-color: #007bff;
-    color: #ffffff;
+    padding: 0.7rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 600;
     border: none;
     border-radius: 4px;
-    font-size: 1rem;
-    font-weight: 500;
+    background-color: #FF6B81;
+    color: #ffffff;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
 button:hover:not([disabled]) {
-    background-color: #0056b3;
+    background-color: #e05a6c;
 }
 
 button:disabled {
-    background-color: #cccccc;
+    background-color: #ccc;
     cursor: not-allowed;
 }
 
 .error {
-    margin-bottom: 1rem;
+    margin-top: 1rem;
     color: #e74c3c;
+    font-size: 0.9rem;
     text-align: center;
-    font-size: 0.95rem;
 }

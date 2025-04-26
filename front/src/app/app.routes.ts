@@ -6,6 +6,7 @@ import { ProfileListComponent } from './components/profiles/profile-list/profile
 import { ProfileComponent } from './components/profiles/profile/profile.component';
 import { ChatListComponent } from './components/chat-list/chat-list.component';
 import { ChatDetailComponent } from './components/chat-detail/chat-detail.component';
+import { SwipeComponent } from './components/swipe/swipe.component';
 
 
 export const routes: Routes = [
@@ -39,14 +40,19 @@ export const routes: Routes = [
     title: 'Profile',
     loadComponent: () => import('./components/profiles/profile/profile.component').then(m => m.ProfileComponent),
   },
-    {
-        path: 'chats',
-        title: 'Here is yall chats',
-        component: ChatListComponent
-    },
-    {
-        path: 'chats/:id',
-        title: 'Chat with ...',
-        component: ChatDetailComponent
-    },
+  {
+      path: 'chats',
+      title: 'Here is yall chats',
+      component: ChatListComponent
+  },
+  {
+      path: 'chats/:id',
+      title: 'Chat with ...',
+      component: ChatDetailComponent
+  },
+  {
+    path: 'explore',
+    title: 'Explore Students',
+    component: SwipeComponent
+  }
 ];

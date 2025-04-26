@@ -31,5 +31,5 @@ urlpatterns = [
     path('api/chats/<uuid:chat_id>/messages/<int:message_id>/',
          MessageDetailAPIView.as_view(),      name='message-detail'),
          
-    path('api/me/', CurrentUserView.as_view(), name='current-user'),
+    path('api/profiles/me/', CurrentUserView.as_view(), name='current-user'),
 ]

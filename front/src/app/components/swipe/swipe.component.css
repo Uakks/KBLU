@@ -1,0 +1,110 @@
+.swipe-wrapper {
+    max-width: 400px;
+    margin: 2rem auto;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    background-color: #f5f7fa;
+    padding: 1rem;
+    border-radius: 12px;
+}
+
+.loading,
+.error,
+.no-more {
+    font-size: 1.1rem;
+    color: #555;
+    margin-top: 2rem;
+}
+
+.error {
+    color: #e74c3c;
+}
+
+.swipe-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+}
+
+.image-container {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.info {
+    padding: 1rem;
+    text-align: left;
+}
+
+.info h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #333;
+}
+
+.info .username {
+    margin: 0.25rem 0;
+    color: #777;
+}
+
+.info p {
+    margin: 0.25rem 0;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem;
+}
+
+.buttons button {
+    flex: 1;
+    margin: 0 0.5rem;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.buttons button:hover:not(:disabled) {
+    transform: translateY(-2px);
+}
+
+.btn-reject {
+    background-color: #ccc;
+    color: #333;
+}
+
+.btn-reject:hover {
+    background-color: #bbb;
+}
+
+.btn-like {
+    background-color: #FF6B81;
+    color: #fff;
+}
+
+.btn-like:hover {
+    background-color: #e05a6c;
+}
+
+button:disabled {
+    background-color: #eee;
+    cursor: not-allowed;
+}
