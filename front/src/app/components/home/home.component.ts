@@ -5,9 +5,12 @@ import { ProfileService } from '../../services/profile.service';
   selector: 'app-home',
   imports: [],
   template: `
-    <p>
-      home works!
-    </p>
+    <section class="home-container">
+      <div class="welcome-card">
+        <h1>Welcome to KBLU!</h1>
+        <p>Your gateway to meaningful connections. Explore and find your partner!</p>
+      </div>
+    </section>
   `,
   styleUrl: './home.component.css'
 })
