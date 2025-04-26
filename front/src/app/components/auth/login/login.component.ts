@@ -1,5 +1,6 @@
+// src/app/auth/login/login.component.ts
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { AuthTokens, LoginRequest } from '../../../interfaces/auth';
@@ -7,23 +8,27 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   template: `
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+    <div class="login-wrapper">
+      <h1>Login</h1>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
 
-      <label>
-        Username:
-        <input formControlName="username" />
-      </label>
+        <label>
+          Username
+          <input formControlName="username" />
+        </label>
 
-      <label>
-        Password:
-        <input type="password" formControlName="password" />
-      </label>
+        <label>
+          Password
+          <input type="password" formControlName="password" />
+        </label>
 
-      <button type="submit" [disabled]="loginForm.invalid">Login</button>
-    </form>
+        <button type="submit" [disabled]="loginForm.invalid">Login</button>
+      </form>
+    </div>
   `,
   styleUrl: './login.component.css'
 })
@@ -59,3 +64,4 @@ export class LoginComponent implements OnInit {
     });
   }
 }
+

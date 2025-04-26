@@ -85,6 +85,7 @@ class ProfileListCreateAPIView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
+        print(request.data)
         serializer = ProfileCreateSerializer(data=request.data)
         if serializer.is_valid():
             profile = serializer.save()
